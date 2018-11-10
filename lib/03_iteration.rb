@@ -49,32 +49,37 @@ end
 # http://stackoverflow.com/questions/827649/what-is-the-ruby-spaceship-operator
 
 class Array
-  def bubble_sort!
-    # byebug
+  def bubble_sort!(&prc)
     i = 0
     j = 1
     sorted = true
     while j < self.length
-      # a, b = self[i], self[j]
-      # if a > b
-      if self[i] > self[j]
-        self[i], self[j] = self[j], self[i]
-        sorted = false
+      if prc.nil?
+        if self[i] > self[j]
+          self[i], self[j] = self[j], self[i]
+          sorted = false
+        end
+      else
+        if prc.call(self[i], self[j]) == 1
+          self[i], self[j] = self[j], self[i]
+          sorted = false
+        end
       end
       i += 1
       j += 1
     end
-    self.bubble_sort! if sorted == false
+    self.bubble_sort!(&prc) if sorted == false
     self
   end
 
   def bubble_sort(&prc)
-    # new_arr = self.dup
     self.dup.bubble_sort!
   end
 end
 
-r = [5, 3, 1].bubble_sort!
+r = [5, 4, 3, 90, 1].bubble_sort! do |num1, num2|
+  num1 <=> num2
+end
 p r
 puts "dude"
 
