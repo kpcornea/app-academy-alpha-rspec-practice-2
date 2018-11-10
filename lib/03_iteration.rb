@@ -1,9 +1,12 @@
+require "byebug"
+
 # ### Factors
 #
 # Write a method `factors(num)` that returns an array containing all the
 # factors of a given number.
 
 def factors(num)
+  (1..num).select { |i| num % i == 0 }
 end
 
 # ### Bubble Sort
@@ -47,11 +50,33 @@ end
 
 class Array
   def bubble_sort!
+    # byebug
+    i = 0
+    j = 1
+    sorted = true
+    while j < self.length
+      # a, b = self[i], self[j]
+      # if a > b
+      if self[i] > self[j]
+        self[i], self[j] = self[j], self[i]
+        sorted = false
+      end
+      i += 1
+      j += 1
+    end
+    self.bubble_sort! if sorted == false
+    self
   end
 
   def bubble_sort(&prc)
+    # new_arr = self.dup
+    self.dup.bubble_sort!
   end
 end
+
+r = [5, 3, 1].bubble_sort!
+p r
+puts "dude"
 
 # ### Substrings and Subwords
 #
