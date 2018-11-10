@@ -30,18 +30,23 @@
 # Examples of calling `eval_block`:
 #
 # ```ruby
-# # Example calls to eval_block
+# # # Example calls to eval_block
 # eval_block("Kerry", "Washington", 23) do |fname, lname, score|
 #   puts "#{lname}, #{fname} won #{score} votes."
 # end
 # # Washington, Kerry won 23 votes.
 # # => nil
-#
+# #
 # eval_block(1,2,3,4,5) do |*args|
-#   args.inject(:+)
+#   puts args.inject(:+)
 # end
 # # => 15
-#
-# eval_block(1, 2, 3)
-# # => "NO BLOCK GIVEN"
-# ```
+# #
+# puts eval_block(1, 2, 3)
+# # # => "NO BLOCK GIVEN"
+# # ```
+
+def eval_block(*args, &prc)
+  puts "NO BLOCK GIVEN" if prc.nil?
+  prc.call(*args)
+end
