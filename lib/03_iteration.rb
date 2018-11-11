@@ -77,11 +77,11 @@ class Array
   end
 end
 
-r = [5, 4, 3, 90, 1].bubble_sort! do |num1, num2|
-  num1 <=> num2
-end
-p r
-puts "dude"
+# r = [5, 4, 3, 90, 1].bubble_sort! do |num1, num2|
+#   num1 <=> num2
+# end
+# p r
+# puts "dude"
 
 # ### Substrings and Subwords
 #
@@ -97,11 +97,38 @@ puts "dude"
 # words).
 
 def substrings(string)
+  arr = []
+
+  string.each_char.with_index do |char1, i|
+    arr << char1
+    sub_str = char1
+    string.each_char.with_index do |char2, j|
+      if j > i
+        sub_str += char2
+        arr << sub_str
+      end
+    end
+  end
+
+  arr
 end
 
 def subwords(word, dictionary)
+  seen = []
+  real_words = []
+
+  substrings(word).each do |ele|
+    if dictionary.include?(ele) && seen.include?(ele) == false
+      real_words << ele
+      seen << ele
+    end
+  end
+
+  real_words
 end
 
+# r = subwords("cat", ["cat", "a", "at"])
+# p r
 # ### Doubler
 # Write a `doubler` method that takes an array of integers and returns an
 # array with the original elements multiplied by two.
