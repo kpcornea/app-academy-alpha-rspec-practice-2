@@ -77,12 +77,6 @@ class Array
   end
 end
 
-# r = [5, 4, 3, 90, 1].bubble_sort! do |num1, num2|
-#   num1 <=> num2
-# end
-# p r
-# puts "dude"
-
 # ### Substrings and Subwords
 #
 # Write a method, `substrings`, that will take a `String` and return an
@@ -127,13 +121,12 @@ def subwords(word, dictionary)
   real_words
 end
 
-# r = subwords("cat", ["cat", "a", "at"])
-# p r
 # ### Doubler
 # Write a `doubler` method that takes an array of integers and returns an
 # array with the original elements multiplied by two.
 
 def doubler(array)
+  array.map { |ele| ele * 2 }
 end
 
 # ### My Each
@@ -161,6 +154,13 @@ end
 
 class Array
   def my_each(&prc)
+    i = 0
+    while i < self.length
+      ele = self[i]
+      prc.call(ele)
+      i += 1
+    end
+    self
   end
 end
 
@@ -179,12 +179,28 @@ end
 
 class Array
   def my_map(&prc)
+    new_arr = []
+    self.my_each do |ele|
+      new_arr << prc.call(ele)
+    end
+    new_arr
   end
 
   def my_select(&prc)
+    new_arr = []
+    self.my_each do |ele|
+      new_arr << ele if prc.call(ele)
+    end
+    new_arr
   end
 
   def my_inject(&blk)
+    acc = self[0]
+    self.my_each do |ele|
+      next if ele == self[0]
+      acc = blk.call(acc, ele)
+    end
+    acc
   end
 end
 
@@ -198,4 +214,5 @@ end
 # ```
 
 def concatenate(strings)
+  strings.inject { |acc, word| acc + word }
 end
